@@ -111,6 +111,7 @@ class TwitterCall(object):
 
     def __call__(self, **kwargs):
         # Build the uri.
+        request_only = kwargs.pop('__request_only', False)
         uriparts = []
         for uripart in self.uriparts:
             # If this part matches a keyword argument, use the
@@ -150,6 +151,8 @@ class TwitterCall(object):
                 body = arg_data.encode('utf8')
 
         req = urllib_request.Request(uriBase, body, headers)
+        if request_only:
+            return req
         return self._handle_response(req, uri, arg_data)
 
     def _handle_response(self, req, uri, arg_data):
