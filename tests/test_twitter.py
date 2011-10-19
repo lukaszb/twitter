@@ -15,3 +15,8 @@ class TestTwitter(unittest.TestCase):
         self.assertEqual(request.get_full_url(),
             'https://api.twitter.com/1/foo/bar.json?')
 
+    def test_calls_respect_method_argument(self):
+        request = self.twitter.foo.bar(__request_only=True, __method='POST',
+            foo='bar')
+        self.assertEqual(request.get_method(), 'POST')
+

@@ -119,11 +119,14 @@ class TwitterCall(object):
             uriparts.append(str(kwargs.pop(uripart, uripart)))
         uri = '/'.join(uriparts)
 
-        method = "GET"
-        for action in POST_ACTIONS:
-            if uri.endswith(action):
-                method = "POST"
-                break
+        if '__method' in kwargs:
+            method = kwargs.pop('__method').upper()
+        else:
+            method = "GET"
+            for action in POST_ACTIONS:
+                if uri.endswith(action):
+                    method = "POST"
+                    break
 
         # If an id kwarg is present and there is no id to fill in in
         # the list of uriparts, assume the id goes at the end.
