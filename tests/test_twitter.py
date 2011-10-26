@@ -22,6 +22,13 @@ class TestTwitter(unittest.TestCase):
             foo='bar')
         self.assertEqual(request.get_method(), 'POST')
 
+    def test_twitter_object_respects_urparts_attribute_in_the_first_place(self):
+        # Regression test for uriparts
+        self.twitter.uriparts = ['foo', 'bar']
+        request = self.twitter(__request_only=True, foo='FOOBAR')
+        self.assertEqual(request.get_full_url(),
+            'https://api.twitter.com/foo/bar.json?foo=FOOBAR')
+
     def test_calls_respect_method_argument_and_it_is_not_passed_with_oauth(self):
         twitter = Twitter(auth=OAuth('token', 'secret', 'consumer_token',
             'consumer_token_secret'))

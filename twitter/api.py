@@ -112,12 +112,7 @@ class TwitterCall(object):
     def __call__(self, **kwargs):
         # Build the uri.
         request_only = kwargs.pop('__request_only', False)
-        uriparts = []
-        for uripart in self.uriparts:
-            # If this part matches a keyword argument, use the
-            # supplied value otherwise, just use the part.
-            uriparts.append(str(kwargs.pop(uripart, uripart)))
-        uri = '/'.join(uriparts)
+        uri = '/'.join(self.uriparts)
 
         if '__method' in kwargs:
             method = kwargs.pop('__method').upper()
